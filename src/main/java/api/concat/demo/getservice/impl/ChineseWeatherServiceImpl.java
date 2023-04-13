@@ -1,9 +1,12 @@
 package api.concat.demo.getservice.impl;
 
+import api.concat.demo.getservice.InstantMessagingService;
 import api.concat.demo.getservice.WeatherService;
-import api.concat.demo.getservice.jsonBean.WeatherBean;
+import api.concat.demo.getservice.jsonBean.EventBean;
+import api.concat.demo.getservice.jsonBean.ChineseWeatherBean;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -11,8 +14,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
-@Service
-public class WeatherServiceImpl implements WeatherService {
+@Service("CH-Weather")
+public class ChineseWeatherServiceImpl implements WeatherService {
+
+    @Autowired
+    private InstantMessagingService instantMessagingService;
+
+    private InstantMessagingService.GroupData groupData;
+
+    public ChineseWeatherServiceImpl(){
+        groupData = InstantMessagingService.getGroupData("2c9280828779107e01877910b87c0000","d43276e8-19a7-4497-92b3-66784904e907");
+    }
 
 //    public static void main(String[] args) {
 //    	RestTemplate rest = new RestTemplate();
@@ -31,12 +43,11 @@ public class WeatherServiceImpl implements WeatherService {
 //    }
 
 
-
     @Override
     public String getWeatherData() {
         String message;
         ObjectMapper objectMapper = new ObjectMapper();
-        WeatherBean weatherBean;
+        ChineseWeatherBean chineseWeatherBean;
 //        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 //        //創建主題樣式
 //        StandardChartTheme standardChartTheme=new StandardChartTheme("CN");
@@ -57,21 +68,21 @@ public class WeatherServiceImpl implements WeatherService {
 //        }
         try {
 //            httpResponse = Unirest.get(URL).asString();
-            weatherBean = objectMapper.readValue( readFile(), WeatherBean.class);
+            chineseWeatherBean = objectMapper.readValue( readFile(), ChineseWeatherBean.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        for (WeatherBean.Locations locations:weatherBean.getRecords().getLocations()) {
+        for (ChineseWeatherBean.Locations locations: chineseWeatherBean.getRecords().getLocations()) {
             message = String.format("%s\n%s:",message,locations.getLocationsName());
-            for (WeatherBean.Location location : locations.getLocation()) {
+            for (ChineseWeatherBean.Location location : locations.getLocation()) {
 //                dataset.clear();
                 if(!location.getLocationName().equals("新莊區")) continue;
                 message = String.format("%s\n%s",message,location.getLocationName());
-                for (WeatherBean.WeatherElement weatherElement: location.getWeatherElement()) {
+                for (ChineseWeatherBean.WeatherElement weatherElement: location.getWeatherElement()) {
                     message = String.format("%s%s:",message,weatherElement.getDescription());
-                    for(WeatherBean.Time time:weatherElement.getTime()){
+                    for(ChineseWeatherBean.Time time:weatherElement.getTime()){
 //                        message = String.format("%s\n%s~%s ",message,time.getStartTime(),time.getEndTime());
-                        for(WeatherBean.ElementValue elementValue:time.getElementValue()){
+                        for(ChineseWeatherBean.ElementValue elementValue:time.getElementValue()){
                             if(elementValue.getValue()==null||elementValue.getValue().equals("")) continue;
 //                            dataset.setValue(Integer.parseInt(elementValue.getValue()) , weatherElement.getDescription(), date(time.getStartTime()));
                             message = String.format("%s\n%s %s%s",message,date(time.getStartTime()),elementValue.getValue(),elementValue.getMeasures());
@@ -97,10 +108,17 @@ public class WeatherServiceImpl implements WeatherService {
 //        System.out.println(message);
         return message;
     }
+
+    @Override
+    public void webhookHandler(EventBean event) {
+        if(event!=null&&event.getMessage()!=null&&event.getMessage().equalsIgnoreCase("weather"))
+        	instantMessagingService.replyMessage(groupData,event,getWeatherData());
+    }
+
     public String readFile(){
         StringBuilder fileTemp = new StringBuilder("");
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/response.json"), "UTF-8"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/ChineseWeatherJson.json"), "UTF-8"));
             String temp;
             while((temp=br.readLine())!=null) {
                 fileTemp.append(temp);

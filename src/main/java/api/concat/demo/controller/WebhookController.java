@@ -5,6 +5,7 @@ import api.concat.demo.getservice.WeatherService;
 import api.concat.demo.getservice.jsonBean.EventBean;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,21 +15,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class WebhookController {
 
     @Autowired
-    InstantMessagingService instantMessagingService;
+    private InstantMessagingService instantMessagingService;
     @Autowired
-    WeatherService weatherService;
+    @Qualifier("EN-Weather")
+    private WeatherService weatherService;
 
     @GetMapping("/")
     public String home(){
-        instantMessagingService.addUser();
         return "OwO";
     }
 
     @PostMapping("/weatherServiceWebhook")
-    public void webhookHandler(@RequestBody EventBean event){
+    public void weatherWebhook(@RequestBody EventBean event){
         System.out.println(event);
-        if(event!=null&&event.getMessage()!=null&&event.getMessage().toLowerCase().equals("weather"))
-        	instantMessagingService.replyMessage(event,weatherService.getWeatherData());
+        weatherService.webhookHandler(event);
     }
 
 }

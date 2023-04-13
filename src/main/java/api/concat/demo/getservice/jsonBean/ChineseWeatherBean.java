@@ -6,12 +6,12 @@ import lombok.Data;
 import java.util.List;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class WeatherBean {
+public class ChineseWeatherBean {
     String success;
     Records records;
     @Data
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public class Records{
+    public static class Records{
         List<Locations> locations;
     }
     @Data
