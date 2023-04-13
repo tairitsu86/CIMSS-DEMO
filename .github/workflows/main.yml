@@ -30,6 +30,7 @@ jobs:
       run: |
         pwd
         ls -la
+        ls -la target
       
     - name: Build and push Docker image
       env:
