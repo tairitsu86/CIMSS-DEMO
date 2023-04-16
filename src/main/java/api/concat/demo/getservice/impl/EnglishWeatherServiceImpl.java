@@ -88,7 +88,7 @@ public class EnglishWeatherServiceImpl implements WeatherService {
         RestTemplate restTemplate = new RestTemplate();
         ObjectMapper objectMapper = new ObjectMapper();
         todayWeather = restTemplate.getForObject("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/taiwan?unitGroup=metric&key=HCMGZY5UNQL5C877RCRH4ZZAP&contentType=json", EnglishWeatherBean.class);
-        File file = new File("target/classes/EnglishWeatherJson.json");
+        File file = new File("./src/main/resources/EnglishWeatherJson.json");
         try (FileWriter fileWriter = new FileWriter(file);){
             fileWriter.write(objectMapper.writeValueAsString(todayWeather));
         } catch (IOException e) {
