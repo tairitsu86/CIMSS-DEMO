@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class InstantMessagingServiceImpl implements InstantMessagingService {
-    private final static String IMURL="http://localhost:8080";
+    private final static String IMURL=System.getenv("CIMSS_URL");
     private final static RestTemplate restTemplate = new RestTemplate();
     private final static HttpHeaders headers = new HttpHeaders();
 

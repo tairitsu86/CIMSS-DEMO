@@ -24,7 +24,7 @@ public class EnglishWeatherServiceImpl implements WeatherService {
     private InstantMessagingService.GroupData groupData;
 
     public EnglishWeatherServiceImpl(){
-        groupData = InstantMessagingService.getGroupData("2c9280828779107e01877910b87c0000","d43276e8-19a7-4497-92b3-66784904e907");
+        groupData = InstantMessagingService.getGroupData(System.getenv("WEATHER_GROUP_ID"),System.getenv("WEATHER_GROUP_API_KEY"));
     }
 
     @Override
