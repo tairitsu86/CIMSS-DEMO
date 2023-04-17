@@ -19,6 +19,10 @@ public class EnglishWeatherServiceImpl implements WeatherService {
 
     private static EnglishWeatherBean todayWeather;
 
+    private static String WEATHER_API_KEY = System.getenv("WEATHER_API_KEY");
+
+    private static String WEATHER_API_URL = String.format("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/taiwan?unitGroup=metric&key=%s&contentType=json",WEATHER_API_KEY);
+
     private InstantMessagingService.GroupData groupData;
 
     public EnglishWeatherServiceImpl(){
@@ -59,6 +63,6 @@ public class EnglishWeatherServiceImpl implements WeatherService {
 
     public void UpdateWeatherByRequest(){
         RestTemplate restTemplate = new RestTemplate();
-        todayWeather = restTemplate.getForObject("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/taiwan?unitGroup=metric&key=HCMGZY5UNQL5C877RCRH4ZZAP&contentType=json", EnglishWeatherBean.class);
+        todayWeather = restTemplate.getForObject(WEATHER_API_URL, EnglishWeatherBean.class);
     }
 }
