@@ -1,6 +1,7 @@
 package api.concat.demo.controller;
 
 import api.concat.demo.getservice.InstantMessagingService;
+import api.concat.demo.getservice.IoTService;
 import api.concat.demo.getservice.WeatherService;
 import api.concat.demo.getservice.jsonBean.EventBean;
 
@@ -19,6 +20,9 @@ public class WebhookController {
     @Autowired
     @Qualifier("EN-Weather")
     private WeatherService weatherService;
+    @Autowired
+    private IoTService ioTService;
+
 
     @GetMapping("/")
     public String home(){
@@ -29,6 +33,11 @@ public class WebhookController {
     public void weatherWebhook(@RequestBody EventBean event){
         System.out.println(event);
         weatherService.webhookHandler(event);
+    }
+    @PostMapping("/iotServiceWebhook")
+    public void iotWebhook(@RequestBody EventBean event){
+        System.out.println(event);
+        ioTService.webhookHandler(event);
     }
 
 }
