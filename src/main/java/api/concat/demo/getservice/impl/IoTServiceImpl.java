@@ -23,7 +23,8 @@ public class IoTServiceImpl implements IoTService {
     }
     @Override
     public String powerSwitch(String state) {
-        return restTemplate.postForObject(IOT_URL, IoTBean.CreateSwitchBean(state), String.class);
+        restTemplate.postForObject(IOT_URL, IoTBean.CreateSwitchBean(state), String.class);
+        return "Success";
     }
     public String getState(){
         return "0".equals(restTemplate.getForObject(IOT_URL,IoTBean.class).getState())?"Power off":"Power on";
