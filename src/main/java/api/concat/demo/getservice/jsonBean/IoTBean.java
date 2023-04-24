@@ -13,9 +13,8 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IoTBean {
     private String data;
-    private String inspect;
     private String state;
     public static IoTBean CreateSwitchBean(String data){
-        return new IoTBean(data,null,null);
+        return new IoTBean(data,null);
     }
 }

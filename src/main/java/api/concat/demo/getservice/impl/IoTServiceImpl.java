@@ -25,14 +25,19 @@ public class IoTServiceImpl implements IoTService {
     public String powerSwitch(String state) {
         return restTemplate.postForObject(IOT_URL, IoTBean.CreateSwitchBean(state), String.class);
     }
+    public String getState(){
+        return restTemplate.getForObject(IOT_URL,IoTBean.class).getState().equals("0")?"Power off":"Power on";
+    }
 
     @Override
     public void webhookHandler(EventBean event) {
         if(event!=null&&event.getMessage()!=null&&event.getMessage().matches("(?i)iot.*")){
-            if(event.getMessage().equalsIgnoreCase("iot on")){
+            if(event.getMessage().matches("(?i)iot on *")){
                 instantMessagingService.replyMessage(groupData,event,powerSwitch("1"));
-            }else if(event.getMessage().equalsIgnoreCase("iot off")){
+            }else if(event.getMessage().matches("(?i)iot off *")){
                 instantMessagingService.replyMessage(groupData,event,powerSwitch("0"));
+            }else if(event.getMessage().matches("(?i)iot state *")){
+                instantMessagingService.replyMessage(groupData,event,getState());
             }
         }
     }
