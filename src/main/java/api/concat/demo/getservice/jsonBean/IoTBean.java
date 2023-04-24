@@ -14,7 +14,15 @@ import lombok.Setter;
 public class IoTBean {
     private String data;
     private String state;
-    public static IoTBean CreateSwitchBean(String data){
-        return new IoTBean(data,null);
+    public static DataBean CreateSwitchBean(String data){
+        return new DataBean(data);
+    }
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class DataBean{
+        private String data;
     }
 }
