@@ -15,13 +15,13 @@ public class IoTServiceImpl implements IoTService {
 
     private InstantMessagingService.GroupData groupData;
 
-    private final static String IOT_URL="http://cimss.csie.fju.edu.tw:10000/";
+    private final static String IOT_URL="https://cimss.csie.fju.edu.tw:10000/";
     private final static RestTemplate restTemplate = new RestTemplate();
 
     public IoTServiceImpl(){
         groupData = InstantMessagingService.getGroupData(System.getenv("IOT_GROUP_ID"),System.getenv("IOT_GROUP_API_KEY"));
     }
-    @Override
+
     public String powerSwitch(String state) {
         restTemplate.postForObject(IOT_URL, IoTBean.CreateSwitchBean(state), String.class);
         return "Success";
