@@ -1,6 +1,7 @@
 package api.concat.demo.getservice.jsonBean;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,8 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IoTBean {
-    private String Result;
-    private String State;
+    @JsonProperty("Result")
+    private String result;
+    @JsonProperty("State")
+    private String state;
 }

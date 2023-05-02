@@ -13,7 +13,8 @@ public class IoTServiceImpl implements MicroService {
     @Autowired
     private CIMSService cimsService;
     private CIMSService.GroupData groupData;
-    private final static String IOT_URL=System.getenv("IOT_SERVICE_URL");
+//    private final static String IOT_URL=System.getenv("IOT_SERVICE_URL");
+    private final static String IOT_URL="http://cimss.csie.fju.edu.tw:8080";
     private final static RestTemplate restTemplate = new RestTemplate();
 
     public IoTServiceImpl(){
