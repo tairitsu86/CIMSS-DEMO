@@ -40,13 +40,13 @@ public class IoTServiceImpl implements MicroService {
         }
     }
     public String setPowerOn(String id) {
-        return restTemplate.getForObject(IOT_URL+"/on", IoTBean.class,id).getResult();
+        return restTemplate.getForObject(IOT_URL+"/on?id={id}", IoTBean.class,id).getResult();
     }
     public String setPowerOff(String id) {
-        return restTemplate.getForObject(IOT_URL+"/off", IoTBean.class,id).getResult();
+        return restTemplate.getForObject(IOT_URL+"/off?id={id}", IoTBean.class,id).getResult();
     }
     public String getState(String id){
-        return restTemplate.getForObject(IOT_URL+"/state",IoTBean.class,id).getState();
+        return restTemplate.getForObject(IOT_URL+"/state?id={id}",IoTBean.class,id).getState();
     }
     public String getBroadcastMessage(EventBean.TextMessageEvent event,String state,String id){
         return String.format("%s turn %s the IoT device id:%s",event.getMember().getUserName(),state,id);
