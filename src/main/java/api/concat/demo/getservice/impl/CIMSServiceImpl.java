@@ -2,7 +2,7 @@ package api.concat.demo.getservice.impl;
 
 import api.concat.demo.getservice.CIMSService;
 import api.concat.demo.getservice.jsonBean.EventBean;
-import api.concat.demo.getservice.jsonBean.InstantMessagingBean;
+import api.concat.demo.getservice.jsonBean.CIMSSBean;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class InstantMessagingServiceImpl implements CIMSService {
+public class CIMSServiceImpl implements CIMSService {
     private final static String IMURL=System.getenv("CIMSS_URL");
 
     @Override
@@ -19,8 +19,8 @@ public class InstantMessagingServiceImpl implements CIMSService {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         headers.set("Authorization", groupData.getAPI_KEY());
-        InstantMessagingBean requestBody = new InstantMessagingBean(groupData.getGroupId(),"","",message,null);
-        HttpEntity<InstantMessagingBean> request = new HttpEntity<>(requestBody,headers);
+        CIMSSBean requestBody = CIMSSBean.CreateBroadCastRequestBody(groupData.getGroupId(),message);
+        HttpEntity<CIMSSBean> request = new HttpEntity<>(requestBody,headers);
         restTemplate.put(IMURL+"/broadcast/text",request);
     }
 
@@ -30,8 +30,8 @@ public class InstantMessagingServiceImpl implements CIMSService {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         headers.set("Authorization", groupData.getAPI_KEY());
-        InstantMessagingBean.User requestBody = InstantMessagingBean.User.createSendUserBean(instantMessagingSoftware,instantMessagingSoftwareUserId,message);
-        HttpEntity<InstantMessagingBean.User> request = new HttpEntity<>(requestBody,headers);
+        CIMSSBean requestBody = CIMSSBean.CreateSendRequestBody(instantMessagingSoftware,instantMessagingSoftwareUserId,message);
+        HttpEntity<CIMSSBean> request = new HttpEntity<>(requestBody,headers);
         restTemplate.postForObject(IMURL+"/send/text",request,String.class);
     }
 

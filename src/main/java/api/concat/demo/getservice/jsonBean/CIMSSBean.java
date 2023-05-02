@@ -1,5 +1,6 @@
 package api.concat.demo.getservice.jsonBean;
 
+import api.concat.demo.getservice.CIMSService;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,24 +12,23 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class InstantMessagingBean {
+public class CIMSSBean {
     private String groupId;
-    private String groupName;
-    private String groupWebhook;
+    private UserId userId;
     private String message;
-    private List<User> users;
+
+    public static CIMSSBean CreateBroadCastRequestBody(String groupId,String message){
+        return new CIMSSBean(groupId,null,message);
+    }
+    public static CIMSSBean CreateSendRequestBody(String instantMessagingSoftware,String instantMessagingSoftwareUserId,String message){
+        return new CIMSSBean(null,new UserId(instantMessagingSoftware,instantMessagingSoftwareUserId),message);
+    }
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class User{
-        public static User createSendUserBean(String instantMessagingSoftware,String instantMessagingSoftwareUserId,String message){
-            return new User(instantMessagingSoftware,instantMessagingSoftwareUserId,null,null,message);
-        }
+    public static class UserId{
         private String instantMessagingSoftware;
         private String instantMessagingSoftwareUserId;
-        private String userName;
-        private String groupId;
-        private String message;
     }
 }
