@@ -1,8 +1,7 @@
 package api.concat.demo.controller;
 
-import api.concat.demo.getservice.InstantMessagingService;
-import api.concat.demo.getservice.IoTService;
-import api.concat.demo.getservice.WeatherService;
+import api.concat.demo.getservice.CIMSService;
+import api.concat.demo.getservice.MicroService;
 import api.concat.demo.getservice.jsonBean.EventBean;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class WebhookController {
 
     @Autowired
-    private InstantMessagingService instantMessagingService;
+    private CIMSService instantMessagingService;
     @Autowired
     @Qualifier("EN-Weather")
-    private WeatherService weatherService;
+    private MicroService weatherService;
     @Autowired
-    private IoTService ioTService;
+    @Qualifier("IoT-control")
+    private MicroService ioTService;
 
 
     @GetMapping("/")
@@ -30,12 +30,12 @@ public class WebhookController {
     }
 
     @PostMapping("/weatherServiceWebhook")
-    public void weatherWebhook(@RequestBody EventBean event){
+    public void weatherWebhook(@RequestBody EventBean.TextMessageEvent event){
         System.out.println(event);
         weatherService.webhookHandler(event);
     }
     @PostMapping("/iotServiceWebhook")
-    public void iotWebhook(@RequestBody EventBean event){
+    public void iotWebhook(@RequestBody EventBean.TextMessageEvent event){
         System.out.println(event);
         ioTService.webhookHandler(event);
     }

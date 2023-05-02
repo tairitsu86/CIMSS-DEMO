@@ -2,6 +2,6 @@ package api.concat.demo.getservice;
 
 import api.concat.demo.getservice.jsonBean.EventBean;
 
-public interface IoTService {
-    void webhookHandler(EventBean event);
+public interface MicroService {
+    void webhookHandler(EventBean.TextMessageEvent event);
 }

@@ -6,13 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-public interface InstantMessagingService {
+public interface CIMSService {
 
     void broadcastMessage(GroupData groupData,String message);
 
     void sendMessage(GroupData groupData,String instantMessagingSoftware,String instantMessagingSoftwareUserId,String message);
 
-    void replyMessage(GroupData groupData,EventBean eventBean,String replyMessage);
+    void replyMessage(GroupData groupData,EventBean.TextMessageEvent event,String replyMessage);
 
     static GroupData getGroupData(String groupId, String API_KEY) {
         return new GroupData(groupId,API_KEY);
