@@ -40,10 +40,10 @@ public class IoTServiceImpl implements MicroService {
         }
     }
     public String setPowerOn(String id) {
-        return restTemplate.getForObject(IOT_URL+"/on", String.class,id);
+        return restTemplate.getForObject(IOT_URL+"/on", IoTBean.class,id).getResult();
     }
     public String setPowerOff(String id) {
-        return restTemplate.getForObject(IOT_URL+"/off", String.class,id);
+        return restTemplate.getForObject(IOT_URL+"/off", IoTBean.class,id).getResult();
     }
     public String getState(String id){
         return restTemplate.getForObject(IOT_URL+"/state",IoTBean.class,id).getState();
