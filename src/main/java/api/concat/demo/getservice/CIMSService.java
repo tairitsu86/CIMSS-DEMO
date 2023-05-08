@@ -1,5 +1,6 @@
 package api.concat.demo.getservice;
 
+import api.concat.demo.getservice.jsonBean.CIMSSBean;
 import api.concat.demo.getservice.jsonBean.EventBean;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +11,7 @@ public interface CIMSService {
 
     void broadcastMessage(GroupData groupData,String message);
 
-    void sendMessage(GroupData groupData,String instantMessagingSoftware,String instantMessagingSoftwareUserId,String message);
+    void sendMessage(GroupData groupData, CIMSSBean.UserId userId, String message);
 
     void replyMessage(GroupData groupData,EventBean.TextMessageEvent event,String replyMessage);
 

@@ -19,8 +19,8 @@ public class CIMSSBean {
     public static CIMSSBean CreateBroadCastRequestBody(String groupId,String message){
         return new CIMSSBean(groupId,null,message);
     }
-    public static CIMSSBean CreateSendRequestBody(String instantMessagingSoftware,String instantMessagingSoftwareUserId,String message){
-        return new CIMSSBean(null,new UserId(instantMessagingSoftware,instantMessagingSoftwareUserId),message);
+    public static CIMSSBean CreateSendRequestBody(UserId userId,String message){
+        return new CIMSSBean(null,userId,message);
     }
     @Data
     @AllArgsConstructor

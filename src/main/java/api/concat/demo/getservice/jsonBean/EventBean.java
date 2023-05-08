@@ -12,7 +12,7 @@ public class EventBean {
     @ToString
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class TextMessageEvent extends EventBean{
-        private final String eventType="TextMessage";
+        private String eventType;
         private MemberData member;
         private String message;
 
@@ -22,10 +22,8 @@ public class EventBean {
     @AllArgsConstructor
     @NoArgsConstructor
     @ToString
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class MemberData{
-        private String instantMessagingSoftware;
-        private String instantMessagingSoftwareUserId;
+        private CIMSSBean.UserId userId;
         private String userName;
         private Boolean isManager;
     }

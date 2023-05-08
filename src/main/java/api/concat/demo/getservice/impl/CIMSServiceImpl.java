@@ -11,7 +11,8 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class CIMSServiceImpl implements CIMSService {
-    private final static String IMURL=System.getenv("CIMSS_URL");
+//    private final static String IMURL=System.getenv("CIMSS_URL");
+    private final static String IMURL="https://cimss.csie.fju.edu.tw/";
 
     @Override
     public void broadcastMessage(GroupData groupData,String message){
@@ -25,19 +26,19 @@ public class CIMSServiceImpl implements CIMSService {
     }
 
     @Override
-    public void sendMessage(GroupData groupData,String instantMessagingSoftware, String instantMessagingSoftwareUserId, String message) {
+    public void sendMessage(GroupData groupData, CIMSSBean.UserId userId, String message) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         headers.set("Authorization", groupData.getAPI_KEY());
-        CIMSSBean requestBody = CIMSSBean.CreateSendRequestBody(instantMessagingSoftware,instantMessagingSoftwareUserId,message);
+        CIMSSBean requestBody = CIMSSBean.CreateSendRequestBody(userId,message);
         HttpEntity<CIMSSBean> request = new HttpEntity<>(requestBody,headers);
         restTemplate.postForObject(IMURL+"/send/text",request,String.class);
     }
 
     @Override
     public void replyMessage(GroupData groupData,EventBean.TextMessageEvent event, String replyMessage) {
-        sendMessage(groupData,event.getMember().getInstantMessagingSoftware(),event.getMember().getInstantMessagingSoftwareUserId(),replyMessage);
+        sendMessage(groupData,event.getMember().getUserId(),replyMessage);
     }
 
 }
