@@ -1,6 +1,5 @@
 package api.concat.demo.getservice.jsonBean;
 
-import api.concat.demo.getservice.CIMSService;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;

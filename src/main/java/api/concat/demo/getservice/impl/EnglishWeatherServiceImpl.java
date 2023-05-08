@@ -63,4 +63,5 @@ public class EnglishWeatherServiceImpl implements MicroService {
         RestTemplate restTemplate = new RestTemplate();
         todayWeather = restTemplate.getForObject(WEATHER_API_URL, EnglishWeatherBean.class);
     }
+
 }
