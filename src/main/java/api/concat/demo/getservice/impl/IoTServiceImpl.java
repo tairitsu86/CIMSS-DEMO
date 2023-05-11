@@ -31,12 +31,15 @@ public class IoTServiceImpl implements MicroService {
                 result = setPowerOff(id);
                 state = "off";
             }else if(event.getMessage().matches("(?i)iot state .*")){
-                result = getState(id);
+                state = getState(id);
             }
             if(result!=null)
                 cimsService.replyMessage(groupData, event, getReplyMessage(state,id));
             if ("Success".equalsIgnoreCase(result)&&state!=null)
                 cimsService.broadcastMessage(groupData, getBroadcastMessage(event,state,id),event.getMember().getUserId());
+            else if (state!=null) {
+                cimsService.replyMessage(groupData,event,getReplyState(state,id));
+            }
         }
     }
     public String setPowerOn(String id) {
@@ -53,5 +56,8 @@ public class IoTServiceImpl implements MicroService {
     }
     public String getReplyMessage(String state,String id){
         return String.format("%s in Group [%s] was turned %s.",id,"School Lab",state);
+    }
+    public String getReplyState(String state,String id){
+        return String.format("The %s in Group [%s] is %s.",id,"School Lab",state);
     }
 }
