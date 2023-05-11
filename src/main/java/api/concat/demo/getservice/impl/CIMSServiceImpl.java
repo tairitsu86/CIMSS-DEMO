@@ -15,12 +15,12 @@ public class CIMSServiceImpl implements CIMSService {
     private final static String IMURL="https://cimss.csie.fju.edu.tw/";
 
     @Override
-    public void broadcastMessage(GroupData groupData,String message){
+    public void broadcastMessage(GroupData groupData,String message,CIMSSBean.UserId userId){
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         headers.set("Authorization", groupData.getAPI_KEY());
-        CIMSSBean requestBody = CIMSSBean.CreateBroadCastRequestBody(groupData.getGroupId(),message);
+        CIMSSBean requestBody = CIMSSBean.CreateBroadCastRequestBody(groupData.getGroupId(),message,userId);
         HttpEntity<CIMSSBean> request = new HttpEntity<>(requestBody,headers);
         restTemplate.put(IMURL+"/broadcast/text",request);
     }

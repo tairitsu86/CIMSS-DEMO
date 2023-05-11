@@ -34,9 +34,9 @@ public class IoTServiceImpl implements MicroService {
                 result = getState(id);
             }
             if(result!=null)
-                cimsService.replyMessage(groupData, event, result);
+                cimsService.replyMessage(groupData, event, getReplyMessage(state,id));
             if ("Success".equalsIgnoreCase(result)&&state!=null)
-                cimsService.broadcastMessage(groupData, getBroadcastMessage(event,state,id));
+                cimsService.broadcastMessage(groupData, getBroadcastMessage(event,state,id),event.getMember().getUserId());
         }
     }
     public String setPowerOn(String id) {
@@ -49,6 +49,9 @@ public class IoTServiceImpl implements MicroService {
         return restTemplate.getForObject(IOT_URL+"/state?id={id}",IoTBean.class,id).getState();
     }
     public String getBroadcastMessage(EventBean.TextMessageEvent event,String state,String id){
-        return String.format("%s turn %s the IoT device id:%s",event.getMember().getUserName(),state,id);
+        return String.format("%s in Group [%s] is turned %s by %s.",id,"School Lab",state,event.getMember().getUserName());
+    }
+    public String getReplyMessage(String state,String id){
+        return String.format("%s in Group [%s] was turned %s.",id,"School Lab",state);
     }
 }

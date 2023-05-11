@@ -9,7 +9,7 @@ import lombok.Setter;
 
 public interface CIMSService {
 
-    void broadcastMessage(GroupData groupData,String message);
+    void broadcastMessage(GroupData groupData,String message,CIMSSBean.UserId userId);
 
     void sendMessage(GroupData groupData, CIMSSBean.UserId userId, String message);
 
